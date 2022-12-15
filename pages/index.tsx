@@ -1,9 +1,12 @@
+import { Fragment } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import PageContainer from "../components/UI/PageContainer";
-import TopSection from "../components/HomePage/TopSection";
-import BookCard from "../components/HomePage/BookCard";
-import { Fragment } from "react";
+import TopSection from "../components/TopSection.tsx/TopSection";
+import BookCard from "../components/BookCard/BookCard";
+import BookingSteps from "../components/BookingSteps/BookingSteps";
+import AboutUs from "../components/AboutUs/AboutUs";
+import CarsList from "../components/CarsList/CarsList";
 
 export default function Home() {
   return (
@@ -17,6 +20,9 @@ export default function Home() {
       <PageContainer>
         <TopSection />
         <BookCard />
+        <BookingSteps />
+        <AboutUs />
+        <CarsList />
       </PageContainer>
     </Fragment>
   );

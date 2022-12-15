@@ -8,6 +8,8 @@ import Calendar from "react-calendar";
 import tw from "tailwind-styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
+import DownArrow from "../../public/assets/images/down-arrow.svg";
+import Image from "next/image";
 import "react-calendar/dist/Calendar.css";
 
 const CalendarContainer = tw.div`
@@ -72,13 +74,17 @@ const CalendarInput: React.FC<{ placeholder: string; line: boolean }> = (
         <CalendarPlaceHolder>{props.placeholder}</CalendarPlaceHolder>
       </CalendarInnerContainer>
       <ArrowIcon>
-        <FontAwesomeIcon icon={faChevronDown} />
+        <Image
+          src={DownArrow}
+          style={{ height: "20px", width: "20px" }}
+          alt="down arrow icon"
+        />
       </ArrowIcon>
       <AnimatePresence>
         {inProp && (
           <motion.div
             transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-            initial={{ opacity: 0, y: 42 }}
+            initial={{ opacity: 0, y: 182 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute"

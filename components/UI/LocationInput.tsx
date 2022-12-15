@@ -56,7 +56,7 @@ const options = [
   { value: "haryana", label: "Haryana" },
 ];
 
-const customStyles = {
+const customStyles: any = {
   indicatorSeparator: () => ({
     // none of react-select's styles are passed to <Control />
     isDisabled: true,
@@ -64,17 +64,27 @@ const customStyles = {
   placeholder: () => ({
     fontSize: "0.875rem",
     color: "rgb(156,163,175)",
+    marginLeft: "0.5rem",
   }),
   input: () => ({
-    height: "0px",
+    position: "absolute",
+    top: "7px",
+    paddingLeft: "0.5rem",
   }),
   control: () => ({
     border: "0px",
     display: "flex",
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   }),
-  singleValue: () => ({}),
+  singleValue: () => ({
+    marginLeft: "0.5rem",
+  }),
   valueContainer: () => ({}),
+  indicatorsContainer: () => ({
+    marginRight: "8px",
+  }),
 };
 
 const LocationInput: React.FC<{ placeholder: string; line: boolean }> = (

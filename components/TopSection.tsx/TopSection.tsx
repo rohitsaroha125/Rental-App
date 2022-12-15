@@ -5,7 +5,11 @@ import BlobImg from "../../public/assets/images/blob.svg";
 import CarImg from "../../public/assets/images/mclaren-orange-big.png";
 import Button from "../UI/Button";
 
-const TopConatiner = tw.div`
+const TopContainerSize = styled.div`
+  min-height: 80vh;
+`;
+
+const TopConatiner = tw(TopContainerSize)`
   w-full
   h-full
   flex

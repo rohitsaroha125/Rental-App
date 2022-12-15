@@ -23,7 +23,9 @@
     "react": "18.2.0",
     "react-calendar": "^4.0.0",
     "react-dom": "18.2.0",
+    "react-multi-carousel": "^2.8.2",
     "react-select": "^5.7.0",
+    "react-tabs": "^6.0.0",
     "styled-components": "^5.3.6",
     "tailwind-styled-components": "^2.2.0",
     "typescript": "4.9.4"
