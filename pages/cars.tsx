@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import BookCard from "../components/BookCard/BookCard";
+import CarsDisplay from "../components/CarsDisplay/CarsDisplay";
 import tw from "tailwind-styled-components";
 import styled from "styled-components";
 
@@ -17,6 +18,7 @@ const Cars = () => {
       <TopConatiner>
         <BookCard />
       </TopConatiner>
+      <CarsDisplay />
     </Fragment>
   );
 };
