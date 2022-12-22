@@ -1,21 +1,35 @@
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+import tw from "tailwind-styled-components";
+import styled from "styled-components";
+import CarsTab from "./CarsTab";
+import RedLabel from "../UI/RedLabel";
+import SectionTitle from "../UI/SectionTitle";
+
+const Container = tw.div`
+    w-full
+    flex
+    items-center
+    justify-center
+    mt-10
+`;
+
+const InnerContainer = tw.div`
+    w-3/5
+    py-10
+`;
+
+const CarsDisplay = tw.div`
+    mt-10
+`;
 
 const CarsList = () => {
   return (
-    <Tabs>
-      <TabList>
-        <Tab>Title 1</Tab>
-        <Tab>Title 2</Tab>
-      </TabList>
-
-      <TabPanel>
-        <h2>Any content 1</h2>
-      </TabPanel>
-      <TabPanel>
-        <h2>Any content 2</h2>
-      </TabPanel>
-    </Tabs>
+    <Container>
+      <InnerContainer>
+        <RedLabel center={true}>Top Rated Dealer</RedLabel>
+        <SectionTitle center={true}>Explore Our Top Deal</SectionTitle>
+        <CarsTab />
+      </InnerContainer>
+    </Container>
   );
 };
 

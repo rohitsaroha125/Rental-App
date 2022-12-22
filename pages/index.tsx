@@ -7,6 +7,9 @@ import BookCard from "../components/BookCard/BookCard";
 import BookingSteps from "../components/BookingSteps/BookingSteps";
 import AboutUs from "../components/AboutUs/AboutUs";
 import CarsList from "../components/CarsList/CarsList";
+import Testimonials from "../components/Testimonials/Testimonials";
+import Subscribe from "../components/Subscribe/Subscribe";
+import Blogs from "../components/Blogs/Blogs";
 
 export default function Home() {
   return (
@@ -23,6 +26,9 @@ export default function Home() {
         <BookingSteps />
         <AboutUs />
         <CarsList />
+        <Testimonials />
+        <Subscribe />
+        <Blogs />
       </PageContainer>
     </Fragment>
   );

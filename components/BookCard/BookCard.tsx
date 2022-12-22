@@ -8,7 +8,6 @@ const BookCardContainer = tw.div`
     w-full
     flex
     justify-center
-    mb-32
 `;
 
 const BookCardInnerConatiner = tw.div`

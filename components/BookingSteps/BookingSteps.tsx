@@ -17,6 +17,14 @@ type StepType = {
   description: string;
 };
 
+const SectionContainer = tw.div`
+  mt-36
+  w-full
+  flex
+  flex-col
+  items-center
+`;
+
 const Container = tw.div`
     w-4/5
     grid
@@ -24,7 +32,7 @@ const Container = tw.div`
     gap-8
     flex
     items-center
-    mt-8
+    mt-12
     mb-10
 `;
 
@@ -51,9 +59,9 @@ const stepsData: StepType[] = [
 
 const BookingSteps = () => {
   return (
-    <Fragment>
-      <RedLabel>How It Works</RedLabel>
-      <SectionTitle>Our Working Steps</SectionTitle>
+    <SectionContainer>
+      <RedLabel center={true}>How It Works</RedLabel>
+      <SectionTitle center={true}>Our Working Steps</SectionTitle>
       <Container>
         {stepsData.map((step: StepType) => {
           return (
@@ -66,7 +74,7 @@ const BookingSteps = () => {
           );
         })}
       </Container>
-    </Fragment>
+    </SectionContainer>
   );
 };
 

@@ -88,6 +88,7 @@ const StandaloneCar = styled.div`
 const ButtonContainer = tw.div`
   flex
   mt-4
+  gap-2
 `;
 
 const TopSection = () => {

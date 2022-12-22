@@ -5,6 +5,7 @@ type ButtonProps = {
   theme?: "Filled" | "Outlined";
   label: string;
   wtFull?: boolean;
+  margin?: boolean;
 };
 
 const BaseButton = tw.button`
@@ -44,14 +45,30 @@ const OutlinedButton = tw(BaseButton)`
 const Button: React.FC<ButtonProps> = (props) => {
   if (props.theme === "Filled") {
     return (
-      <FilledButton style={props.wtFull ? { width: "100%" } : {}}>
+      <FilledButton
+        style={
+          props.wtFull
+            ? { width: "100%", margin: "0px" }
+            : !props.margin
+            ? { margin: "0px" }
+            : {}
+        }
+      >
         {props.label}
       </FilledButton>
     );
   }
 
   return (
-    <OutlinedButton style={props.wtFull ? { width: "100%" } : {}}>
+    <OutlinedButton
+      style={
+        props.wtFull
+          ? { width: "100%", margin: "0px" }
+          : !props.margin
+          ? { margin: "0px" }
+          : {}
+      }
+    >
       {props.label}
     </OutlinedButton>
   );
