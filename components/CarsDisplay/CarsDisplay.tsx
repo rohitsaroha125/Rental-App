@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 import styled from "styled-components";
 import Cars from "../../pages/cars";
 import FiltersList from "../FiltersList/FiltersList";
+import CarsDisplayList from "./CarsDisplayList";
 
 const Container = tw.div`
   px-6
@@ -28,8 +29,16 @@ const FilterHeading = tw.h6`
 
 const CarsContainer = tw.div`
   flex
+  flex-col
   col-span-6
   bg-gray-100
+  py-8
+  px-8
+`;
+
+const CarsContainerHeading = tw.h6`
+  text-2xl
+  font-medium
 `;
 
 const CarsDisplay = () => {
@@ -39,7 +48,12 @@ const CarsDisplay = () => {
         <FilterHeading>Apply Filters</FilterHeading>
         <FiltersList />
       </FilterContainer>
-      <CarsContainer>Cars</CarsContainer>
+      <CarsContainer>
+        <CarsContainerHeading>
+          24 Cars available for rent in Delhi-NCR
+        </CarsContainerHeading>
+        <CarsDisplayList />
+      </CarsContainer>
     </Container>
   );
 };

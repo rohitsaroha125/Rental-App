@@ -1,6 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
 import tw from "tailwind-styled-components";
 import CheckboxInput from "../UI/CheckboxInput";
+import SliderInput from "../UI/SliderInput";
 
 const Container = tw.div`
   flex
@@ -29,8 +31,19 @@ const FuelList = ["Diesel", "Petrol", "CNG"];
 const TransmissionList = ["Automatic", "Manual"];
 
 const FiltersList = () => {
+  const [priceRange, setPriceRange] = useState({ x: 10 });
+  const [mileageRange, setMileageRange] = useState({ x: 10 });
+
   return (
     <Container>
+      <FilterContainer>
+        <FilterHeading>Price Range (in $)</FilterHeading>
+        <SliderInput leftValue={10} rightValue={100} />
+      </FilterContainer>
+      <FilterContainer>
+        <FilterHeading>Mileage (in k)</FilterHeading>
+        <SliderInput leftValue={10} rightValue={100} />
+      </FilterContainer>
       <FilterContainer>
         <FilterHeading>Brands</FilterHeading>
         <CheckboxOptions>

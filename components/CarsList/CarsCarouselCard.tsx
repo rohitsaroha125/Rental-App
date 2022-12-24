@@ -41,20 +41,21 @@ const CarouselItemShadow = styled.div`
   box-shadow: 0px 3px 10px 0px rgba(220, 220, 220, 1);
 `;
 
-const CarouselItem = tw(CarouselItemShadow)`
+const CarouselItem = tw(CarouselItemShadow)`  
+    ${({ carList }: any) => (carList ? "mb-2" : "mx-4 mb-8")}
     bg-white
-    mx-4
     rounded-md
     px-3
     pt-3
     pb-6
-    mb-8
-`;
+` as any;
 
 const CarouselImageStyle = styled.div`
   img {
+    object-fit: contain;
     border-radius: 4px;
     height: 160px;
+    background: #fff;
   }
 `;
 
@@ -129,9 +130,11 @@ const BtnContainer = tw.div`
   mt-5
 `;
 
-const CarsCarouselCard: React.FC<{ car: CarType }> = (props) => {
+const CarsCarouselCard: React.FC<{ car: CarType; carList?: boolean }> = (
+  props
+) => {
   return (
-    <CarouselItem key={props.car.id}>
+    <CarouselItem carList={props.carList} key={props.car.id}>
       <CarouselImage>
         <Image
           src={props.car.thumbnailSrc}
