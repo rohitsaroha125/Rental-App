@@ -1,5 +1,6 @@
 import CarLogoImg from "../../public/assets/images/car-logo.png";
 import Image from "next/image";
+import { memo } from "react";
 
 const Logo = () => {
   return (
@@ -12,4 +13,4 @@ const Logo = () => {
   );
 };
 
-export default Logo;
+export default memo(Logo);

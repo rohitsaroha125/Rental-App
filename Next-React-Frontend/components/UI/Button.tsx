@@ -6,6 +6,7 @@ type ButtonProps = {
   label: string;
   wtFull?: boolean;
   margin?: boolean;
+  handleClick?: (e: React.MouseEvent) => void;
 };
 
 const BaseButton = tw.button`
@@ -14,7 +15,7 @@ const BaseButton = tw.button`
     outline-none
     rounded-md
     text-white
-    text-xs
+    text-sm
     font-semibold
     border-transparent
     border-2
@@ -53,6 +54,7 @@ const Button: React.FC<ButtonProps> = (props) => {
             ? { margin: "0px" }
             : {}
         }
+        onClick={props.handleClick}
       >
         {props.label}
       </FilledButton>
@@ -61,6 +63,7 @@ const Button: React.FC<ButtonProps> = (props) => {
 
   return (
     <OutlinedButton
+      onClick={props.handleClick}
       style={
         props.wtFull
           ? { width: "100%", margin: "0px" }

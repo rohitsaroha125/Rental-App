@@ -3,13 +3,18 @@ import type { AppProps } from "next/app";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import { Fragment } from "react";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
   return (
     <Fragment>
-      <Navbar />
+      <Navbar
+        auth={router.pathname === "/login" || router.pathname === "/register"}
+      />
       <Component {...pageProps} />
-      <Footer />
+      {router.pathname !== ("/login" || "/register") && <Footer />}
     </Fragment>
   );
 }

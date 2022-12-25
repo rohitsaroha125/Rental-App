@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Logo from "./Logo";
 import NavItems from "./NavItems";
 
-const Navbar = () => {
+const Navbar: React.FC<{ auth: boolean }> = (props) => {
   const [detectTop, setDetectTop] = useState(true);
 
   useEffect(() => {
@@ -23,11 +23,15 @@ const Navbar = () => {
     <div
       id="navBar"
       className={`w-full flex flex-row items-center lg:px-12 py-3 justify-between z-50 fixed ${
-        detectTop ? "bg-transparent" : "bg-white shadow-md"
+        props.auth
+          ? "bg-white shadow-md"
+          : detectTop
+          ? "bg-transparent"
+          : "bg-white shadow-md"
       }`}
     >
       <Logo />
-      <NavItems />
+      <NavItems auth={props.auth} />
     </div>
   );
 };
