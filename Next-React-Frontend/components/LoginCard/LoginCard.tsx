@@ -5,6 +5,10 @@ import Button from "../UI/Button";
 import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import useHttp from "../../hooks/use-http";
+import { HttpRequest } from "../../models/HttpRequest";
+import Loader from "../Loader/Loader";
+import toastr from "toastr";
 
 const ContainerStyle = styled.div`
   width: 35%;
@@ -79,6 +83,25 @@ const ErrorLabel = tw(ErrorStyle)`
 `;
 
 const LoginCard = () => {
+  const options: HttpRequest = {
+    url: `${process.env.NEXT_PUBLIC_DB_URL}users/login`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const transformData = (data: any) => {
+    console.log("data from server is ", data);
+    toastr.success("Login Successful", "Success");
+  };
+
+  const {
+    loading,
+    error,
+    sendRequest: loginUser,
+  } = useHttp(options, transformData);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -91,12 +114,13 @@ const LoginCard = () => {
       password: Yup.string().required("Password is Required"),
     }),
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      loginUser(values);
     },
   });
 
   return (
     <Container>
+      {loading && <Loader />}
       <Heading>Login</Heading>
       <form onSubmit={formik.handleSubmit}>
         <Input
