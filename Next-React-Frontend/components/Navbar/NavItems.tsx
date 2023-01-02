@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { Fragment, memo } from "react";
 import tw from "tailwind-styled-components";
 import Button from "../UI/Button";
 import { useRouter } from "next/router";
@@ -34,7 +34,21 @@ const NavItems: React.FC<{ auth: boolean }> = (props) => {
     return (
       <ul className="flex list-none">
         <NavItem>
-          New to YourCar? <Link href="/register">Register Here</Link>
+          {router.pathname === "/login" ? (
+            <div className="flex">
+              New to YourCar?{" "}
+              <Link href="/register" className="text-red-500 ml-2 font-bold">
+                Register Here
+              </Link>
+            </div>
+          ) : (
+            <div className="flex">
+              Already have an account?{" "}
+              <Link href="/login" className="text-red-500 ml-2 font-bold">
+                Login Here
+              </Link>
+            </div>
+          )}
         </NavItem>
       </ul>
     );

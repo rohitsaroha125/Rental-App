@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import styled from "styled-components";
-import LoginCard from "../components/LoginCard/LoginCard";
+import RegisterCard from "../components/RegisterCard/RegisterCard";
 
 const ContainerBg = styled.div`
   background: #f7f8fa;
@@ -9,7 +9,7 @@ const ContainerBg = styled.div`
 const Container = tw(ContainerBg)`
     w-full
     h-full
-    pt-40
+    pt-32
     pb-20
     flex
     items-center
@@ -19,7 +19,7 @@ const Container = tw(ContainerBg)`
 const Register = () => {
   return (
     <Container>
-      <LoginCard />
+      <RegisterCard />
     </Container>
   );
 };
