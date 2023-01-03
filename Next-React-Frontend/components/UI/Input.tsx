@@ -14,8 +14,8 @@ const InputStyle = styled.input`
 const Input: React.FC<{
   input: InputType;
   handleChange: any;
-  handleBlur: any;
-  handleValue: any;
+  handleBlur?: any;
+  handleValue?: any;
 }> = (props) => {
   return (
     <InputStyle

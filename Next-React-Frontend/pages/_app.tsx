@@ -1,7 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
+import Layout from "../components/Layout/Layout";
 import { Fragment } from "react";
 import { useRouter } from "next/router";
 import { Provider } from "react-redux";
@@ -13,11 +12,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
-      <Navbar
-        auth={router.pathname === "/login" || router.pathname === "/register"}
-      />
-      <Component {...pageProps} />
-      {router.pathname !== ("/login" || "/register") && <Footer />}
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </Provider>
   );
 }
