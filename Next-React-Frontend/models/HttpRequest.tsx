@@ -1,5 +1,5 @@
 export type HttpRequest = {
-  url: string | undefined;
+  url?: string | undefined;
   method: string;
   headers: any;
   params?: any;

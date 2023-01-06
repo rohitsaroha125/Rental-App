@@ -84,7 +84,6 @@ const ErrorLabel = tw(ErrorStyle)`
 
 const LoginCard = () => {
   const options: HttpRequest = {
-    url: `${process.env.NEXT_PUBLIC_DB_URL}users/login`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -114,7 +113,7 @@ const LoginCard = () => {
       password: Yup.string().required("Password is Required"),
     }),
     onSubmit: (values) => {
-      loginUser(values);
+      loginUser(`${process.env.NEXT_PUBLIC_DB_URL}users/login`, values);
     },
   });
 

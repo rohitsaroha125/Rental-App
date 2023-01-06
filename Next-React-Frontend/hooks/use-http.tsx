@@ -11,10 +11,13 @@ const useHttp = (
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const sendRequest = async (data: any) => {
+  const sendRequest = async (url: string, body?: any) => {
     setLoading(true);
     setError(false);
-    reqOptions.data = data;
+    if (body) {
+      reqOptions.data = body;
+    }
+    reqOptions.url = url;
     try {
       const { data } = await axios(reqOptions);
       transformData(data);

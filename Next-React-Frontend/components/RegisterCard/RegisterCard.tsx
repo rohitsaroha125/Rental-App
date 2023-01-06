@@ -84,7 +84,6 @@ const ErrorLabel = tw(ErrorStyle)`
 
 const RegisterCard = () => {
   const options: HttpRequest = {
-    url: `${process.env.NEXT_PUBLIC_DB_URL}users/signup`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -125,7 +124,7 @@ const RegisterCard = () => {
     onSubmit: (values) => {
       const fullName = values.firstName + " " + values.lastName;
       values.name = fullName;
-      signupUser(values);
+      signupUser(`${process.env.NEXT_PUBLIC_DB_URL}users/signup`, values);
     },
   });
 

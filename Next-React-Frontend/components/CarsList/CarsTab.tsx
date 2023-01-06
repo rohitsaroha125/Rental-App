@@ -1,56 +1,13 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import styled from "styled-components";
-import { CarType } from "../../models/Car";
+import { CarType, CarsCarouselType } from "../../models/Car";
 import MultiCarousel from "../UI/MultiCarousel";
 import CarsCarouselCard from "./CarsCarouselCard";
-
-const carsData: CarType[] = [
-  {
-    id: 1,
-    name: "Audi S3 Car",
-    mileage: "10k",
-    thumbnailSrc:
-      "https://cdn.jdpower.com/Models/640x480/2017-Audi-S3-PremiumPlus.jpg",
-    dailyPrice: 70,
-    monthlyPrice: 1600,
-    gearType: "Auto",
-    gas: "Petrol",
-  },
-  {
-    id: 2,
-    name: "HONDA City 5 Seater Car",
-    mileage: "20k",
-    thumbnailSrc:
-      "https://shinewiki.com/wp-content/uploads/2019/11/honda-city.jpg",
-    dailyPrice: 50,
-    monthlyPrice: 1500,
-    gearType: "Auto",
-    gas: "Petrol",
-  },
-  {
-    id: 3,
-    name: "Audi S3 Car",
-    mileage: "10k",
-    thumbnailSrc:
-      "https://cdn.jdpower.com/Models/640x480/2017-Audi-S3-PremiumPlus.jpg",
-    dailyPrice: 70,
-    monthlyPrice: 1600,
-    gearType: "Auto",
-    gas: "Petrol",
-  },
-  {
-    id: 4,
-    name: "HONDA City 5 Seater Car",
-    mileage: "20k",
-    thumbnailSrc:
-      "https://shinewiki.com/wp-content/uploads/2019/11/honda-city.jpg",
-    dailyPrice: 50,
-    monthlyPrice: 1500,
-    gearType: "Auto",
-    gas: "Petrol",
-  },
-];
+import useHttp from "../../hooks/use-http";
+import { HttpRequest } from "../../models/HttpRequest";
+import { useEffect, useState } from "react";
+import Loader from "../Loader/Loader";
 
 const CustomTabs = styled.div`
   margin-top: 30px;
@@ -79,48 +36,89 @@ const CustomTabs = styled.div`
 `;
 
 const CarsTab = () => {
+  const options: HttpRequest = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const transformData = (data: any) => {
+    setCarsData((prevState: CarsCarouselType) => {
+      return { ...prevState, [brand]: data?.data };
+    });
+  };
+
+  const {
+    loading,
+    error,
+    sendRequest: getCarsByBrand,
+  } = useHttp(options, transformData);
+
+  const [brand, setBrand] = useState<string>("audi");
+  const [carsData, setCarsData] = useState<CarsCarouselType>({
+    audi: [],
+    suzuki: [],
+    toyota: [],
+    honda: [],
+    hyundai: [],
+  });
+
+  useEffect(() => {
+    if (carsData[brand].length === 0) {
+      getCarsByBrand(
+        `${process.env.NEXT_PUBLIC_DB_URL}cars?limit=6&brand=${brand}`
+      );
+    }
+  }, [carsData, brand]);
+
+  const handleCarsFetch = (e: React.MouseEvent, brandName: string) => {
+    setBrand(brandName);
+  };
+
   return (
     <CustomTabs>
+      {loading && <Loader />}
       <Tabs focusTabOnClick={false}>
         <TabList>
-          <Tab>Audi</Tab>
-          <Tab>Nissan</Tab>
-          <Tab>Mazda</Tab>
-          <Tab>Toyota</Tab>
-          <Tab>Honda</Tab>
+          <Tab onClick={(e) => handleCarsFetch(e, "audi")}>Audi</Tab>
+          <Tab onClick={(e) => handleCarsFetch(e, "suzuki")}>Suzuki</Tab>
+          <Tab onClick={(e) => handleCarsFetch(e, "hyundai")}>Hyundai</Tab>
+          <Tab onClick={(e) => handleCarsFetch(e, "toyota")}>Toyota</Tab>
+          <Tab onClick={(e) => handleCarsFetch(e, "honda")}>Honda</Tab>
         </TabList>
 
         <TabPanel>
           <MultiCarousel>
-            {carsData.map((car: CarType) => {
+            {carsData[brand].map((car: CarType) => {
+              return <CarsCarouselCard key={car?.id} car={car} />;
+            })}
+          </MultiCarousel>
+        </TabPanel>
+        <TabPanel>
+          <MultiCarousel>
+            {carsData[brand].map((car: CarType) => {
+              return <CarsCarouselCard key={car?.id} car={car} />;
+            })}
+          </MultiCarousel>
+        </TabPanel>
+        <TabPanel>
+          <MultiCarousel>
+            {carsData[brand].map((car: CarType) => {
               return <CarsCarouselCard key={car.id} car={car} />;
             })}
           </MultiCarousel>
         </TabPanel>
         <TabPanel>
           <MultiCarousel>
-            {carsData.map((car: CarType) => {
+            {carsData[brand].map((car: CarType) => {
               return <CarsCarouselCard key={car.id} car={car} />;
             })}
           </MultiCarousel>
         </TabPanel>
         <TabPanel>
           <MultiCarousel>
-            {carsData.map((car: CarType) => {
-              return <CarsCarouselCard key={car.id} car={car} />;
-            })}
-          </MultiCarousel>
-        </TabPanel>
-        <TabPanel>
-          <MultiCarousel>
-            {carsData.map((car: CarType) => {
-              return <CarsCarouselCard key={car.id} car={car} />;
-            })}
-          </MultiCarousel>
-        </TabPanel>
-        <TabPanel>
-          <MultiCarousel>
-            {carsData.map((car: CarType) => {
+            {carsData[brand].map((car: CarType) => {
               return <CarsCarouselCard key={car.id} car={car} />;
             })}
           </MultiCarousel>

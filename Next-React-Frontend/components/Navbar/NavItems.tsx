@@ -56,8 +56,12 @@ const NavItems: React.FC<{ auth: boolean }> = (props) => {
 
   return (
     <ul className="flex list-none">
-      <NavItem>Home</NavItem>
-      <NavItem>Cars</NavItem>
+      <NavItem>
+        <Link href="/">Home</Link>
+      </NavItem>
+      <NavItem>
+        <Link href="/cars">Cars</Link>
+      </NavItem>
       <NavItem>Services</NavItem>
       <NavItem>Contact Us</NavItem>
       <NavItem>

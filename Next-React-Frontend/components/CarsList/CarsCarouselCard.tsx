@@ -137,20 +137,20 @@ const CarsCarouselCard: React.FC<{ car: CarType; carList?: boolean }> = (
     <CarouselItem carList={props.carList} key={props.car.id}>
       <CarouselImage>
         <Image
-          src={props.car.thumbnailSrc}
+          src={props?.car?.thumbnailSrc}
           alt="Car for Rent"
           width={500}
           height={500}
         />
       </CarouselImage>
-      <CarouselTitle>{props.car.name}</CarouselTitle>
+      <CarouselTitle>{props?.car?.name}</CarouselTitle>
       <PriceContainer>
         <PriceTag>
-          <PriceRed>${props.car.dailyPrice}</PriceRed>
+          <PriceRed>${props?.car?.price}</PriceRed>
           <PriceLabel>/day&nbsp; | &nbsp;</PriceLabel>
         </PriceTag>
         <PriceTag>
-          <PriceBig>${props.car.monthlyPrice}</PriceBig>
+          <PriceBig>${props?.car?.monthlyPrice}</PriceBig>
           <PriceLabel>/month</PriceLabel>
         </PriceTag>
       </PriceContainer>
@@ -158,15 +158,15 @@ const CarsCarouselCard: React.FC<{ car: CarType; carList?: boolean }> = (
       <CarDetailContainer>
         <DetailIcon>
           <FontAwesomeIcon icon={faTachometerAlt} />
-          <DetailContentStyle>{props.car.mileage}</DetailContentStyle>
+          <DetailContentStyle>{props?.car?.mileage}</DetailContentStyle>
         </DetailIcon>
         <DetailIcon>
           <FontAwesomeIcon icon={faEllipsisH} />
-          <DetailContentStyle>{props.car.gearType}</DetailContentStyle>
+          <DetailContentStyle>{props?.car?.gearType}</DetailContentStyle>
         </DetailIcon>
         <DetailIcon>
           <FontAwesomeIcon icon={faFillDrip} />
-          <DetailContentStyle>{props.car.gas}</DetailContentStyle>
+          <DetailContentStyle>{props?.car?.gas}</DetailContentStyle>
         </DetailIcon>
       </CarDetailContainer>
       <BtnContainer>
