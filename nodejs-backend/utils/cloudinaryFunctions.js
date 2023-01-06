@@ -17,7 +17,7 @@ const uploadToCloudinary = async (imageLink) => {
   
       try {
         // Upload the image
-        const result = await cloudinary.uploader.upload('https://cdn.jdpower.com/Models/640x480/2017-Audi-S3-PremiumPlus.jpg', options);
+        const result = await cloudinary.uploader.upload(imageLink, options);
         console.log(result);
         return result;
       } catch (error) {

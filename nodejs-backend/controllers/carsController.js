@@ -36,8 +36,8 @@ carsControllers.uploadCarsFile = async (req,res, next) => {
         const carsInserted = []
         await Promise.all(carsArr.map(async (car, i) => {
           const cloudinaryLink = await uploadToCloudinary(car.thumbnailSrc)
-          car.thumbnailSrc = cloudinaryLink.url
-          const createCar = await Car.create(car)
+          const newCar = { ...car, thumbnailSrc: cloudinaryLink.url }
+          const createCar = await Car.create(newCar)
           carsInserted.push(createCar)
         }))
         res.json({
