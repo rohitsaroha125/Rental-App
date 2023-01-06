@@ -48,5 +48,6 @@ router
   )
 
   router.route('/uploadCars').post(upload.single('uploadCsv'), carsController.uploadCarsFile)
+  router.route('/testUpload').post(upload.single('photo'), carsController.testUpload)
 
 module.exports = router

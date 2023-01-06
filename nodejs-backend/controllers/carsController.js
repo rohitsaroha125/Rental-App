@@ -3,6 +3,14 @@ const Car = require('../models/cars')
 const handleFactory = require('./handleFactory')
 const Fs = require('fs');
 const CsvReadableStream = require('csv-reader');
+const { uploadToCloudinary } = require('../utils/cloudinaryFunctions')
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({ 
+  cloud_name: 'dm2wzdfn5', 
+  api_key: '475944553874185', 
+  api_secret: 'LAPMeEpw1tr7EX1KTGxLqM_716I' 
+});
 
 const carsControllers = {}
 
@@ -14,72 +22,41 @@ carsControllers.topAlias = (req, res, next) => {
   next()
 }
 
+carsControllers.uploadCarsFile = async (req,res, next) => {
+  try {
+    let inputStream = Fs.createReadStream('./uploads/' + req.file.filename, 'utf8');
+    const carsArr = []
+
+    inputStream
+	    .pipe(new CsvReadableStream({ parseNumbers: true, parseBooleans: true, trim: true, asObject: true }))
+	    .on('data', function (row) {
+        carsArr.push(row)
+	    })
+	    .on('end', async function () {
+        const carsInserted = []
+        await Promise.all(carsArr.map(async (car, i) => {
+          const cloudinaryLink = await uploadToCloudinary(car.thumbnailSrc)
+          car.thumbnailSrc = cloudinaryLink.url
+          const createCar = await Car.create(car)
+          carsInserted.push(createCar)
+        }))
+        res.json({
+          ok: true,
+          cars: carsInserted
+        })
+	    });
+  } catch(err) {
+    next(new AppError('Some error occured', 500, err))
+  }
+} 
+
+carsControllers.testUpload = 
+
 carsControllers.getCars = handleFactory.getDocs(Car)
 carsControllers.getCarById = handleFactory.getDoc(Car)
 carsControllers.createCar = handleFactory.createDoc(Car)
 carsControllers.updateCar = handleFactory.updateDoc(Car)
 carsControllers.deleteCar = handleFactory.deleteDoc(Car)
-
-// tourControllers.addTours = async (req, response) => {
-//   const url = 'https://www.natours.dev/api/v1/tours'
-
-//   response.setHeader('Content-Type', 'text/html')
-//   let flag = 0
-//   https
-//     .get(url, (res) => {
-//       let data = ''
-//       res.on('data', (chunk) => {
-//         data += chunk
-//       })
-//       res.on('end', async () => {
-//         data = JSON.parse(data)
-//         const apiData = data.data.data
-//         await apiData.forEach(async (item) => {
-//           try {
-//             const dbData = {
-//               name: item.name,
-//               ratingsAverage: item.ratingsAverage,
-//               ratingsQuantity: item.ratingsQuantity,
-//               durations: item.durations,
-//               maxGroupSize: item.maxGroupSize,
-//               difficulty: item.difficulty,
-//               price: item.price,
-//               priceDiscount: item.priceDiscount,
-//               summary: item.summary,
-//               description: item.description,
-//               imageCover: item.imageCover,
-//               images: item.images,
-//               startDates: item.startDates,
-//             }
-//             await Tour.create(dbData)
-//           } catch (err) {
-//             console.log('error is ', err.message)
-//             response.write('Error occured', err.message)
-//             flag = 1
-//           }
-//         })
-//         if (flag === 0) {
-//           response.status(201).json({
-//             status: true,
-//             message: 'All data added',
-//           })
-//         } else {
-//           response.end()
-//         }
-//       })
-//     })
-//     .on('error', (err) => {
-//       console.log(err.message)
-//       response.status(400).json({
-//         status: false,
-//         message: 'some issue occured',
-//       })
-//     })
-
-//   //   res.json({
-//   //     data,
-//   //   })
-// }
 
 carsControllers.getCarStats = async (req, res) => {
   try {
@@ -108,18 +85,5 @@ carsControllers.getCarStats = async (req, res) => {
     })
   }
 }
-
-carsControllers.uploadCarsFile = async (req,res)=>{
-  let inputStream = Fs.createReadStream('./uploads/' + req.file.filename, 'utf8');
-
-  inputStream
-	  .pipe(new CsvReadableStream({ parseNumbers: true, parseBooleans: true, trim: true }))
-	  .on('data', function (row) {
-	    console.log('A row arrived: ', row);
-	  })
-	  .on('end', function () {
-	    console.log('No more rows!');
-	  });
-} 
 
 module.exports = carsControllers

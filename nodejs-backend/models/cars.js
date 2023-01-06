@@ -38,11 +38,6 @@ const carsSchema = new mongoose.Schema(
         type: Number,
         required: true,
     },
-    location: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Location',
-        required: true
-    },
     availability: {
         type: Boolean,
         required: true,
