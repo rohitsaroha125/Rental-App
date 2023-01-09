@@ -79,21 +79,23 @@ handleFactory.getDocs = (Model) => async (req, res, next) => {
     const filters = {}
     if (req.params.tourId) filters.tour = req.params.tourId
 
-    const toursData = new APIFeature(Model.find(filters), req.query)
+    const carsData = new APIFeature(Model.find(filters), req.query)
       .filter()
       .sort()
       .fields()
       .paginate()
 
-    const tours = await toursData.query
+    const carsLength = new APIFeature(Model.find(filters), req.query).countDocs()
+
+    const cars = await carsData.query
+    const carsLengthFind = await carsLength.query
 
     res.status(200).json({
       status: true,
-      total: tours.length,
-      data: tours,
+      total: carsLengthFind,
+      data: cars,
     })
   } catch (err) {
-    console.log('error is ', err)
     next(new AppError('Records not found', 404, err))
   }
 }
