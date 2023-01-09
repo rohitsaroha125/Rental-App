@@ -26,13 +26,36 @@ const CheckboxOptions = tw.div`
   flex-col
 `;
 
-const BrandsList = ["Audi", "Honda", "Nissan", "Toyota", "Mazda"];
-const FuelList = ["Diesel", "Petrol", "CNG"];
+const BrandsList = ["Audi", "Honda", "Suzuki", "Toyota", "Hyundai"];
+const FuelList = ["Diesel", "Petrol"];
 const TransmissionList = ["Automatic", "Manual"];
 
-const FiltersList = () => {
+const FiltersList: React.FC<{
+  handleBrands: (data: string) => void;
+  handleRemoveBrands: (data: string) => void;
+}> = (props) => {
   const [priceRange, setPriceRange] = useState({ x: 10 });
   const [mileageRange, setMileageRange] = useState({ x: 10 });
+
+  const handleBrandValue = (data: string) => {
+    props.handleBrands(data);
+  };
+
+  const handleFuelValue = (data: string) => {
+    props.handleBrands(data);
+  };
+
+  const handleTransmissionValue = (data: string) => {
+    props.handleBrands(data);
+  };
+
+  const handleRemoveBrandValue = (data: string) => {
+    props.handleRemoveBrands(data);
+  };
+
+  const handleRemoveFuelValue = (data: string) => {};
+
+  const handleRemoveTransmissionValue = (data: string) => {};
 
   return (
     <Container>
@@ -49,7 +72,13 @@ const FiltersList = () => {
         <CheckboxOptions>
           {BrandsList.map((brand: string, i) => {
             return (
-              <CheckboxInput label={brand} checkboxId={`brand_${i}`} key={i} />
+              <CheckboxInput
+                handleCheckboxValue={handleBrandValue}
+                handleRemoveCheckboxValue={handleRemoveBrandValue}
+                label={brand}
+                checkboxId={`brand_${i}`}
+                key={i}
+              />
             );
           })}
         </CheckboxOptions>
@@ -59,7 +88,13 @@ const FiltersList = () => {
         <CheckboxOptions>
           {FuelList.map((fuel: string, i) => {
             return (
-              <CheckboxInput label={fuel} checkboxId={`fuel_${i}`} key={i} />
+              <CheckboxInput
+                handleCheckboxValue={handleFuelValue}
+                handleRemoveCheckboxValue={handleRemoveFuelValue}
+                label={fuel}
+                checkboxId={`fuel_${i}`}
+                key={i}
+              />
             );
           })}
         </CheckboxOptions>
@@ -70,6 +105,8 @@ const FiltersList = () => {
           {TransmissionList.map((transmission: string, i) => {
             return (
               <CheckboxInput
+                handleCheckboxValue={handleTransmissionValue}
+                handleRemoveCheckboxValue={handleRemoveTransmissionValue}
                 label={transmission}
                 checkboxId={`transmission_${i}`}
                 key={i}

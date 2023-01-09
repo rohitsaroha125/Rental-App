@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Cars from "../../pages/cars";
 import FiltersList from "../FiltersList/FiltersList";
 import CarsDisplayList from "./CarsDisplayList";
+import { useEffect, useState } from "react";
 
 const Container = tw.div`
   px-6
@@ -42,17 +43,46 @@ const CarsContainerHeading = tw.h6`
 `;
 
 const CarsDisplay = () => {
+  const [totalCars, setTotalCars] = useState<number>(0);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+
+  const handleTotalCars = (data: number) => {
+    setTotalCars(data);
+  };
+
+  const handleBrands = (data: string) => {
+    setSelectedBrands((prevState: string[]) => {
+      return [...prevState, data.toLowerCase()];
+    });
+  };
+
+  const handleRemoveBrands = (data: string) => {
+    setSelectedBrands((prevState: string[]) => {
+      const filteredBrands = prevState.filter((brand: string) => {
+        return brand !== data.toLowerCase();
+      });
+      prevState = filteredBrands;
+      return prevState;
+    });
+  };
+
   return (
     <Container>
       <FilterContainer>
         <FilterHeading>Apply Filters</FilterHeading>
-        <FiltersList />
+        <FiltersList
+          handleBrands={handleBrands}
+          handleRemoveBrands={handleRemoveBrands}
+        />
       </FilterContainer>
       <CarsContainer>
         <CarsContainerHeading>
-          24 Cars available for rent in Delhi-NCR
+          {totalCars} Cars available for rent in Delhi-NCR
         </CarsContainerHeading>
-        <CarsDisplayList />
+        <CarsDisplayList
+          selectedBrands={selectedBrands}
+          handleTotalCars={handleTotalCars}
+        />
       </CarsContainer>
     </Container>
   );

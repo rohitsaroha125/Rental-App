@@ -56,7 +56,7 @@ const CarsTab = () => {
   } = useHttp(options, transformData);
 
   const [brand, setBrand] = useState<string>("audi");
-  const [carsData, setCarsData] = useState<CarsCarouselType>({
+  const [carsData, setCarsData] = useState<{ [key: string]: any }>({
     audi: [],
     suzuki: [],
     toyota: [],
