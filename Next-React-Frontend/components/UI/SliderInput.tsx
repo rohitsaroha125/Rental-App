@@ -1,6 +1,6 @@
 import { TwoThumbInputRange } from "react-two-thumb-input-range";
 import tw from "tailwind-styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const SliderStyles = {
@@ -47,9 +47,11 @@ const LabelString = tw.p`
     font-medium
 `;
 
-const SliderInput: React.FC<{ leftValue: number; rightValue: number }> = (
-  props
-) => {
+const SliderInput: React.FC<{
+  leftValue: number;
+  rightValue: number;
+  handleRange: (data: [number, number]) => void;
+}> = (props) => {
   const [value, setValue] = useState<[number, number]>([
     props.leftValue,
     props.rightValue,
@@ -57,6 +59,7 @@ const SliderInput: React.FC<{ leftValue: number; rightValue: number }> = (
 
   const onValueChange = (values: [number, number]) => {
     setValue(values);
+    props.handleRange(values);
   };
 
   return (

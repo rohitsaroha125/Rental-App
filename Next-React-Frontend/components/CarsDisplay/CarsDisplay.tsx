@@ -4,6 +4,7 @@ import Cars from "../../pages/cars";
 import FiltersList from "../FiltersList/FiltersList";
 import CarsDisplayList from "./CarsDisplayList";
 import { useEffect, useState } from "react";
+import useFilterCheckbox from "../../hooks/use-filter-checkbox";
 
 const Container = tw.div`
   px-6
@@ -44,26 +45,38 @@ const CarsContainerHeading = tw.h6`
 
 const CarsDisplay = () => {
   const [totalCars, setTotalCars] = useState<number>(0);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
+  const [mileageRange, setMileageRange] = useState<[number, number] | null>(
+    null
+  );
+  const {
+    selectedOptions: selectedBrands,
+    handleAddOption: handleBrands,
+    handleRemoveOption: handleRemoveBrands,
+  } = useFilterCheckbox();
+
+  const {
+    selectedOptions: selectedFuels,
+    handleAddOption: handleFuels,
+    handleRemoveOption: handleRemoveFuels,
+  } = useFilterCheckbox();
+
+  const {
+    selectedOptions: selectedTransmission,
+    handleAddOption: handleTransmission,
+    handleRemoveOption: handleRemoveTransmission,
+  } = useFilterCheckbox();
 
   const handleTotalCars = (data: number) => {
     setTotalCars(data);
   };
 
-  const handleBrands = (data: string) => {
-    setSelectedBrands((prevState: string[]) => {
-      return [...prevState, data.toLowerCase()];
-    });
+  const handlePriceRange = (data: [number, number]) => {
+    setPriceRange(data);
   };
 
-  const handleRemoveBrands = (data: string) => {
-    setSelectedBrands((prevState: string[]) => {
-      const filteredBrands = prevState.filter((brand: string) => {
-        return brand !== data.toLowerCase();
-      });
-      prevState = filteredBrands;
-      return prevState;
-    });
+  const handleMileageRange = (data: [number, number]) => {
+    setMileageRange(data);
   };
 
   return (
@@ -73,6 +86,12 @@ const CarsDisplay = () => {
         <FiltersList
           handleBrands={handleBrands}
           handleRemoveBrands={handleRemoveBrands}
+          handleFuels={handleFuels}
+          handleRemoveFuels={handleRemoveFuels}
+          handleTransmission={handleTransmission}
+          handleRemoveTransmission={handleRemoveTransmission}
+          handlePriceRange={handlePriceRange}
+          handleMileageRange={handleMileageRange}
         />
       </FilterContainer>
       <CarsContainer>
@@ -81,6 +100,10 @@ const CarsDisplay = () => {
         </CarsContainerHeading>
         <CarsDisplayList
           selectedBrands={selectedBrands}
+          selectedFuels={selectedFuels}
+          selectedTransmission={selectedTransmission}
+          selectedPriceRange={priceRange}
+          selectedMileageRange={mileageRange}
           handleTotalCars={handleTotalCars}
         />
       </CarsContainer>

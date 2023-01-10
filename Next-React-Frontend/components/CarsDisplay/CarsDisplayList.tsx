@@ -45,6 +45,10 @@ const PaginationContainer = styled.div`
 const CarsDisplayList: React.FC<{
   handleTotalCars: (data: number) => void;
   selectedBrands: string[];
+  selectedFuels: string[];
+  selectedTransmission: string[];
+  selectedPriceRange: [number, number] | null;
+  selectedMileageRange: [number, number] | null;
 }> = (props) => {
   const [carsData, setCarsData] = useState<CarType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -79,22 +83,59 @@ const CarsDisplayList: React.FC<{
 
     // handle brands
     if (props.selectedBrands.length > 0) {
-      const myStr = brandString(props.selectedBrands);
+      const myStr = optionsString(props.selectedBrands, "brand");
       url += `&` + myStr;
     }
+
+    // handle fuels
+    if (props.selectedFuels.length > 0) {
+      const myStr = optionsString(props.selectedFuels, "gas");
+      url += `&` + myStr;
+    }
+
+    // handle gear types
+    if (props.selectedTransmission.length > 0) {
+      const myStr = optionsString(props.selectedTransmission, "gearType");
+      url += `&` + myStr;
+    }
+
+    // handle price range
+    if (props.selectedPriceRange) {
+      const myStr = rangeString(props.selectedPriceRange, "price");
+      url += `&${myStr}`;
+    }
+
+    // handle mileage range
+    if (props.selectedMileageRange) {
+      const myStr = rangeString(props.selectedMileageRange, "mileage");
+      url += `&${myStr}`;
+    }
+
     window.scrollTo(0, 0);
     getCars(url);
-  }, [currentPage, props.selectedBrands]);
+  }, [
+    currentPage,
+    props.selectedBrands,
+    props.selectedFuels,
+    props.selectedTransmission,
+    props.selectedPriceRange,
+    props.selectedMileageRange,
+  ]);
 
-  const brandString = (data: string[]) => {
+  const optionsString = (data: string[], optionType: string) => {
     let str = ``;
-    data.forEach((brand: string, i: number) => {
+    data.forEach((option: string, i: number) => {
       if (i === data.length - 1) {
-        str += `brand=` + brand;
+        str += `${optionType}=${option}`;
       } else {
-        str += `brand=` + brand + `&`;
+        str += `${optionType}=${option}&`;
       }
     });
+    return str;
+  };
+
+  const rangeString = (data: [number, number], rangeType: string) => {
+    const str = `${rangeType}[gte]=${data[0]}&${rangeType}[lte]=${data[1]}`;
     return str;
   };
 

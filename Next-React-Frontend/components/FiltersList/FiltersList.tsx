@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "tailwind-styled-components";
 import CheckboxInput from "../UI/CheckboxInput";
 import SliderInput from "../UI/SliderInput";
+import useHttp from "../../hooks/use-http";
+import { HttpRequest } from "../../models/HttpRequest";
 
 const Container = tw.div`
   flex
@@ -28,45 +30,107 @@ const CheckboxOptions = tw.div`
 
 const BrandsList = ["Audi", "Honda", "Suzuki", "Toyota", "Hyundai"];
 const FuelList = ["Diesel", "Petrol"];
-const TransmissionList = ["Automatic", "Manual"];
+const TransmissionList = ["Auto", "Manual"];
 
 const FiltersList: React.FC<{
   handleBrands: (data: string) => void;
   handleRemoveBrands: (data: string) => void;
+  handleFuels: (data: string) => void;
+  handleRemoveFuels: (data: string) => void;
+  handleTransmission: (data: string) => void;
+  handleRemoveTransmission: (data: string) => void;
+  handlePriceRange: (data: [number, number]) => void;
+  handleMileageRange: (data: [number, number]) => void;
 }> = (props) => {
-  const [priceRange, setPriceRange] = useState({ x: 10 });
-  const [mileageRange, setMileageRange] = useState({ x: 10 });
+  const options: HttpRequest = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const transformData = (data: any) => {
+    setPriceValues({
+      left: data?.data[0].minPrice,
+      right: data?.data[0].maxPrice,
+    });
+    const mileageLeft = parseInt(data?.data[0].minMileage.substr(0, 2));
+    const mileageRight = parseInt(data?.data[0].maxMileage.substr(0, 2));
+    setMileageValues({
+      left: mileageLeft,
+      right: mileageRight,
+    });
+  };
+
+  const { sendRequest: getSliderValues } = useHttp(options, transformData);
+  const [priceValues, setPriceValues] = useState<{
+    left: number;
+    right: number;
+  } | null>(null);
+  const [mileageValues, setMileageValues] = useState<{
+    left: number;
+    right: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const url = `${process.env.NEXT_PUBLIC_DB_URL}cars/getStats`;
+    getSliderValues(url);
+  }, []);
 
   const handleBrandValue = (data: string) => {
     props.handleBrands(data);
   };
 
   const handleFuelValue = (data: string) => {
-    props.handleBrands(data);
+    props.handleFuels(data);
   };
 
   const handleTransmissionValue = (data: string) => {
-    props.handleBrands(data);
+    props.handleTransmission(data);
   };
 
   const handleRemoveBrandValue = (data: string) => {
     props.handleRemoveBrands(data);
   };
 
-  const handleRemoveFuelValue = (data: string) => {};
+  const handleRemoveFuelValue = (data: string) => {
+    props.handleRemoveFuels(data);
+  };
 
-  const handleRemoveTransmissionValue = (data: string) => {};
+  const handleRemoveTransmissionValue = (data: string) => {
+    props.handleRemoveTransmission(data);
+  };
+
+  const handlePriceRange = (data: [number, number]) => {
+    props.handlePriceRange(data);
+  };
+
+  const handleMileageRange = (data: [number, number]) => {
+    props.handleMileageRange(data);
+  };
 
   return (
     <Container>
-      <FilterContainer>
-        <FilterHeading>Price Range (in $)</FilterHeading>
-        <SliderInput leftValue={10} rightValue={100} />
-      </FilterContainer>
-      <FilterContainer>
-        <FilterHeading>Mileage (in k)</FilterHeading>
-        <SliderInput leftValue={10} rightValue={100} />
-      </FilterContainer>
+      {priceValues && (
+        <FilterContainer>
+          <FilterHeading>Price Range (in $)</FilterHeading>
+          <SliderInput
+            leftValue={priceValues.left}
+            rightValue={priceValues.right}
+            handleRange={handlePriceRange}
+          />
+        </FilterContainer>
+      )}
+      {mileageValues && (
+        <FilterContainer>
+          <FilterHeading>Mileage (in k)</FilterHeading>
+          <SliderInput
+            leftValue={mileageValues.left}
+            rightValue={mileageValues.right}
+            handleRange={handleMileageRange}
+          />
+        </FilterContainer>
+      )}
       <FilterContainer>
         <FilterHeading>Brands</FilterHeading>
         <CheckboxOptions>
