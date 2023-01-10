@@ -62,15 +62,12 @@ carsControllers.getCarStats = async (req, res) => {
   try {
     const stats = await Car.aggregate([
       {
-        $match: { ratingsAverage: { $gte: 4 } },
-      },
-      {
         $group: {
           _id: null,
-          avgRating: { $avg: '$ratingsAverage' },
-          avgPrice: { $avg: '$price' },
           minPrice: { $min: '$price' },
           maxPrice: { $max: '$price' },
+          minMileage: { $min: '$mileage' },
+          maxMileage: { $max: '$mileage' }
         },
       },
     ])

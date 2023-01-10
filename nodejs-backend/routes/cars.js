@@ -25,6 +25,7 @@ var upload = multer({
 router
   .route('/top-5-tours')
   .get(carsController.topAlias, carsController.getCars)
+  
 router.route('/getStats').get(carsController.getCarStats)
 
 router.route('/').get(carsController.getCars).post(
