@@ -4,13 +4,13 @@ import {
   faCalendarAlt,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
-import Calendar from "react-calendar";
+import { Calendar } from "react-modern-calendar-datepicker";
 import tw from "tailwind-styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import DownArrow from "../../public/assets/images/down-arrow.svg";
 import Image from "next/image";
-import "react-calendar/dist/Calendar.css";
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
 
 const CalendarContainer = tw.div`
   w-full
@@ -89,7 +89,7 @@ const CalendarInput: React.FC<{ placeholder: string; line: boolean }> = (
             exit={{ opacity: 0 }}
             className="absolute"
           >
-            <Calendar minDate={new Date()} />
+            <Calendar />
           </motion.div>
         )}
       </AnimatePresence>

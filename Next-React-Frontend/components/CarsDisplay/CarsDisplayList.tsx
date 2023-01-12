@@ -4,7 +4,7 @@ import CarsCarouselCard from "../CarsList/CarsCarouselCard";
 import { CarType } from "../../models/Car";
 import useHttp from "../../hooks/use-http";
 import { HttpRequest } from "../../models/HttpRequest";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ReactPaginate from "react-paginate";
 import Loader from "../Loader/Loader";
 

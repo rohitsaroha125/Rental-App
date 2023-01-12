@@ -124,6 +124,7 @@ const DetailIcon = styled.div`
 const DetailContentStyle = styled.p`
   color: #959595;
   font-size: 14px;
+  text-transform: capitalize;
 `;
 
 const BtnContainer = tw.div`

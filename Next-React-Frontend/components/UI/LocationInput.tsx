@@ -6,7 +6,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import tw from "tailwind-styled-components";
 import styled from "styled-components";
-import "react-calendar/dist/Calendar.css";
 import Select from "react-select";
 
 const LocationContainer = tw.div`
